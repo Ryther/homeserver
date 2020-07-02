@@ -16,6 +16,7 @@ curl -fsSL get.docker.com | sudo sh
 
 ## Install Supervised Home ASsistant
 echo "Install Supervised Home ASsistant"
+MACHINE=$(uname -m)
 curl -sL "https://raw.githubusercontent.com/Kanga-Who/home-assistant/master/supervised-installer.sh" | sudo bash -s
 
 ## Docker-compose installation as a docker container
@@ -27,7 +28,7 @@ cd ~
 homeDir=$(pwd)
 ## Creation of the services' dir
 echo "Creation of the services' dir"
-if [ ! -d ~/.services ]
+if [ ! -d "${homeDir}/.services" ]
 then
 	mkdir ~/.services
 fi
@@ -35,8 +36,8 @@ cd ~/.services
 
 ## Importing and setting docker-compose.yml
 echo "Importing and setting docker-compose.yml"
->"${homeDir}/docker-compose.yml" curl -sL "https://raw.githubusercontent.com/Ryther/homeserver/master/docker-compose.yml"
-sed -i 's|{homeDir}|'"${homeDir}"'|' "${homeDir}/docker-compose.yml"
+>"${homeDir}/.services/docker-compose.yml" curl -sL "https://raw.githubusercontent.com/Ryther/homeserver/master/docker-compose.yml"
+sed -i 's|{homeDir}|'"${homeDir}"'|' "${homeDir}/.services/docker-compose.yml"
 
 read -p "Enter transmission username: "  transmissionUsername
 sed -i 's|{transmissionUsername}|'"${transmissionUsername}"'|' "${homeDir}/docker-compose.yml"
