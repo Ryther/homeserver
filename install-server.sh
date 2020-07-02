@@ -21,7 +21,10 @@ sudo chmod +x /usr/local/bin/docker-compose
 cd ~
 homeDir=$(pwd)
 ## Creation of the services' dir
-mkdir ~/.services || true
+if [ ! -d ~/.services ]
+then
+	mkdir ~/.services
+fi
 cd ~/.services
 
 ## Importing and setting docker-compose.yml
