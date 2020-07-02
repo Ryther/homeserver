@@ -20,7 +20,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 cd ~
 homeDir=$(pwd)
 ## Creation of the services' dir
-mkdir ~/.services && cd ~/.services
+mkdir ~/.services || true
+cd ~/.services
 
 ## Importing and setting docker-compose.yml
 >"${homeDir}/docker-compose.yml" curl -sL "https://raw.githubusercontent.com/Ryther/homeserver/master/docker-compose.yml"
