@@ -1,0 +1,152 @@
+version: "3.5"
+services:
+  organizr:
+    image: organizrtools/organizr-v2:latest
+    container_name: organizr-v2
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - {homeDir}/.services/organizr/config:/config
+    ports:
+      - 80:80
+    restart: unless-stopped
+    networks:
+      - organizr
+
+  portainer:
+    image: portainer/portainer:latest
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - {homeDir}/.services/portainer/data:/data
+    ports:
+      - 10001:9000
+    networks:
+      - organizr
+
+  transmission:
+    image: linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+      - USER={transmissionUsername}
+      - PASS={transmissionPassword}
+    volumes:
+      - {homeDir}/.services/transmission/config:/config
+      - {homeDir}/downloads:/downloads
+      - {homeDir}/watch:/watch
+    ports:
+      - 10002:9091
+      - 19999:51413
+      - 19999:51413/udp
+    restart: unless-stopped
+    networks:
+      - torrenting
+      - organizr
+  jackett:
+    image: linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+      - AUTO_UPDATE=true #optional
+    volumes:
+      - {homeDir}/.services/jackett/config:/config
+      - {homeDir}/downloads:/downloads
+    ports:
+      - 10003:9117
+    restart: unless-stopped
+    networks:
+      - torrenting
+      - organizr
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - {homeDir}/.services/radarr/config:/config
+      - {homeDir}/movies:/movies
+      - {homeDir}/downloads:/downloads
+    ports:
+      - 10004:7878
+    restart: unless-stopped
+    networks:
+      - torrenting
+      - organizr
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - {homeDir}/.services/sonarr/config:/config
+      - {homeDir}/series:/tv
+      - {homeDir}/downloads:/downloads
+    ports:
+      - 10005:8989
+    restart: unless-stopped
+    networks:
+      - torrenting
+      - organizr
+  bazarr:
+    image: linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+      - UMASK_SET=022 #optional
+    volumes:
+      - {homeDir}/.services/bazarr/config:/config
+      - {homeDir}/movies:/movies
+      - {homeDir}/series:/tv
+    ports:
+      - 10006:6767
+    restart: unless-stopped
+
+  grocy:
+    image: linuxserver/grocy:latest
+    container_name: grocy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - {homeDir}/.services/grocy/config:/config
+    ports:
+      - 10007:80
+    restart: unless-stopped
+    networks:
+      - organizr
+
+  duplicati:
+    image: linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    volumes:
+      - {homeDir}/.services/duplicati/config:/config
+      - {homeDir}/backups:/backups
+      - {homeDir}:/source
+    ports:
+      - 10008:8200
+    restart: unless-stopped
+    networks:
+      - organizr
+
+networks:
+    organizr:
+      name: organizr
+    torrenting:
+      name: torrenting
