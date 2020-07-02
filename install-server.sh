@@ -2,6 +2,7 @@
 
 ## Dependencies installation
 sudo apt-get install -y software-properties-common apparmor-utils apt-transport-https avahi-daemon ca-certificates curl dbus jq network-manager socat
+sudo apt autoremove -y
 
 ## Disabling ModemManager (if exist) for compatibility
 sudo systemctl disable ModemManager
