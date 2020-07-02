@@ -1,20 +1,17 @@
 #!/usr/bin/env bash
 
-sudo -i
-
 ## Dependencies installation
-apt-get install -y software-properties-common apparmor-utils apt-transport-https avahi-daemon ca-certificates curl dbus jq network-manager socat
+sudo apt-get install -y software-properties-common apparmor-utils apt-transport-https avahi-daemon ca-certificates curl dbus jq network-manager socat
 
 ## Disabling ModemManager (if exist) for compatibility
-systemctl disable ModemManager
-systemctl stop ModemManager
+sudo systemctl disable ModemManager
+sudo systemctl stop ModemManager
 
 ## Install Docker CE
-curl -fsSL get.docker.com | sh
+sudo curl -fsSL get.docker.com | sudo sh
 
 ## Install Supervised Home ASsistant
-curl -sL "https://raw.githubusercontent.com/Kanga-Who/home-assistant/master/supervised-installer.sh" | bash -s
-exit
+sudo curl -sL "https://raw.githubusercontent.com/Kanga-Who/home-assistant/master/supervised-installer.sh" | sudo bash -s
 
 ## Docker-compose installation as a docker container
 sudo curl -L --fail https://raw.githubusercontent.com/linuxserver/docker-docker-compose/master/run.sh -o /usr/local/bin/docker-compose
