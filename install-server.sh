@@ -11,13 +11,16 @@ sudo systemctl disable ModemManager
 sudo systemctl stop ModemManager
 
 ## Install Docker CE
-echo "Install Docker CE"
-curl -fsSL get.docker.com | sudo sh
+command -v docker > /dev/null 2>&1 || dockerMissing=true
+if [ "${dockerMissing}" = true ]
+then
+	echo "Install Docker CE"
+	curl -fsSL get.docker.com | sudo sh
+fi
 
 ## Install Supervised Home ASsistant
 echo "Install Supervised Home ASsistant"
-MACHINE=$(uname -m)
-curl -sL "https://raw.githubusercontent.com/Kanga-Who/home-assistant/master/supervised-installer.sh" | sudo bash -s
+curl -sL "https://raw.githubusercontent.com/Kanga-Who/home-assistant/master/supervised-installer.sh" | sudo bash -s -- -m odroid-n2
 
 ## Docker-compose installation as a docker container
 echo "Docker-compose installation as a docker container"
