@@ -1,0 +1,819 @@
+{
+    "data": {
+        "config": {
+            "title": "Morte Nera",
+            "views": [
+                {
+                    "badges": [
+                        {
+                            "entity": "binary_sensor.updater"
+                        },
+                        {
+                            "entity": "person.edoardo_zanoni"
+                        },
+                        {
+                            "entity": "person.silvia_cagimicali"
+                        },
+                        {
+                            "entity": "sun.sun"
+                        }
+                    ],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "light.luci_casa",
+                                            "image": "https://i.imgur.com/SK7DMge.png",
+                                            "state_filter": {
+                                                "off": "brightness(50%) saturate(0)",
+                                                "on": "brightness(100%) saturate(1.5)"
+                                            },
+                                            "style": {
+                                                "height": "100%",
+                                                "overflow": "hidden",
+                                                "position": "absolute",
+                                                "transform": "translate(0%, -100%)",
+                                                "width": "100%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "image"
+                                        }
+                                    ],
+                                    "image": "https://i.imgur.com/SK7DMge.png",
+                                    "style": "ha-card {\n  height: 250px;\n}\n",
+                                    "type": "picture-elements"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_names": false,
+                                        "hvac": true
+                                    },
+                                    "entity": "climate.clima_casa",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire",
+                                        "idle": "mdi:pause-circle-outline"
+                                    },
+                                    "name": "Clima",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\n  height: 80px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  top: 0px;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.modes {\n  position: relative;\n  top: -50px;\n}\n.body {\n  position: relative;\n  left: 30%;\n  top: -43px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "animate": true,
+                                    "entities": [
+                                        {
+                                            "entity": "sensor.temperatura_media_casa",
+                                            "name": "Temp. media"
+                                        }
+                                    ],
+                                    "group_by": "hour",
+                                    "hour24": true,
+                                    "points_per_hour": 1,
+                                    "show": {
+                                        "icon": false,
+                                        "name": false
+                                    },
+                                    "style": "ha-card {\n  position: relative;\n  top: -5px;\n  background-color: rgba(0,0,0,0);\n}\ndiv.state__time {\n  top: 0%;\n  left: 125%\n}\ndiv.info {\n  padding: 0;\n}\ndiv.states.flex {\n  padding: 0 16px 0 16px;\n}\n",
+                                    "type": "custom:mini-graph-card",
+                                    "update_interval": 60
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.gruppo_casa_2",
+                                        "style": "ha-card {\n  margin-top: -30px;\n}\n",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.gruppo_casa_2",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "style": "ha-card {\n  border-radius: 20px;    \n}\n.card-header {\n  text-align: center;\n  font-weight: 600;\n  font-variant: small-caps;\n  font-size: var(--ha-card-header-font-size, 32px);\n}\n",
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "light.luci_soggiorno",
+                                            "image": "https://www.storyhomes.co.uk/wp-content/uploads/2018/10/Cosify-1.png",
+                                            "state_filter": {
+                                                "off": "brightness(50%) saturate(0)",
+                                                "on": "brightness(100%) saturate(1.5)"
+                                            },
+                                            "style": {
+                                                "height": "100%",
+                                                "overflow": "hidden",
+                                                "position": "absolute",
+                                                "transform": "translate(0%, -100%)",
+                                                "width": "100%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "image"
+                                        }
+                                    ],
+                                    "image": "https://www.storyhomes.co.uk/wp-content/uploads/2018/10/Cosify-1.png",
+                                    "style": "ha-card {\n  height: 250px;\n}\n",
+                                    "type": "picture-elements"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_names": false,
+                                        "hvac": true
+                                    },
+                                    "entity": "climate.soggiorno_clima",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire",
+                                        "idle": "mdi:pause-circle-outline"
+                                    },
+                                    "name": "Clima",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\n  height: 80px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  top: 0px;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.modes {\n  position: relative;\n  top: -50px;\n}\n.body {\n  position: relative;\n  left: 30%;\n  top: -43px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_icons": false,
+                                        "_names": false,
+                                        "cooling": false
+                                    },
+                                    "entity": "climate.soggiorno_calorifero",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire"
+                                    },
+                                    "label": {
+                                        "state": "Stato"
+                                    },
+                                    "name": "Calorifero",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\nheight: 48px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.body {\n  position: relative;\n  top: -43px;\n}\n.sensors {\n  position: relative;\n}\n.main div.current-wrapper.row {\n  position: relative;\n  left: 15%;\n  top: -5px;\n}\n.sensors div:last-of-type {\nposition: relative;\n  top: 20px;\n  left: -30%;\n  font-size: 12px;\n  text-align: left;\n}\n.sensors .sensor-heading {\n  position: relative;\n  visibility: hidden;\n}\n.idle {\n  margin-top: 10px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "animate": true,
+                                    "entities": [
+                                        {
+                                            "entity": "sensor.soggiorno_clima_room_temp",
+                                            "name": "Temp."
+                                        }
+                                    ],
+                                    "group_by": "hour",
+                                    "hour24": true,
+                                    "points_per_hour": 1,
+                                    "show": {
+                                        "icon": false,
+                                        "name": false
+                                    },
+                                    "style": "ha-card {\n  background-color: rgba(0,0,0,0);\n}\ndiv.state__time {\n  position: absolute;\n  top: 0%;\n  left: 125%\n}\ndiv.info {\n  padding: 0;\n}\ndiv.states.flex {\n  padding: 0 16px 0 16px;\n}\n",
+                                    "type": "custom:mini-graph-card",
+                                    "update_interval": 60
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.plex_plex_for_android_tv_bravia_4k_ur2",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.sony_bravia_tv",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.sony_bravia_tv",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.sony_bravia_tv",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.soggiorno",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.soggiorno",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "style": "ha-card {\n  border-radius: 20px;    \n}\n.card-header {\n  text-align: center;\n  font-weight: 600;\n  font-variant: small-caps;\n  font-size: var(--ha-card-header-font-size, 32px);\n}\n",
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "light.ingresso_1",
+                                            "image": "https://i.imgur.com/nXf6WDi.png",
+                                            "state_filter": {
+                                                "off": "brightness(50%) saturate(0)",
+                                                "on": "brightness(100%) saturate(1.5)"
+                                            },
+                                            "style": {
+                                                "height": "100%",
+                                                "overflow": "hidden",
+                                                "position": "absolute",
+                                                "transform": "translate(0%, -100%)",
+                                                "width": "100%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "image"
+                                        }
+                                    ],
+                                    "image": "https://i.imgur.com/nXf6WDi.png",
+                                    "style": "ha-card {\n  height: 250px;\n}\n",
+                                    "type": "picture-elements"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_icons": false,
+                                        "_names": false,
+                                        "cooling": false
+                                    },
+                                    "entity": "climate.ingresso_calorifero",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire"
+                                    },
+                                    "label": {
+                                        "state": "Stato"
+                                    },
+                                    "name": "Calorifero",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\nheight: 48px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.body {\n  position: relative;\n  top: -43px;\n}\n.sensors {\n  position: relative;\n}\n.main div.current-wrapper.row {\n  position: relative;\n  left: 15%;\n  top: -5px;\n}\n.sensors div:last-of-type {\nposition: relative;\n  top: 20px;\n  left: -30%;\n  font-size: 12px;\n  text-align: left;\n}\n.sensors .sensor-heading {\n  position: relative;\n  visibility: hidden;\n}\n.idle {\n  margin-top: 10px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                }
+                            ],
+                            "style": "ha-card {\n  border-radius: 20px;    \n}\n.card-header {\n  text-align: center;\n  font-weight: 600;\n  font-variant: small-caps;\n  font-size: var(--ha-card-header-font-size, 32px);\n}\n",
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "light.camera_silvia",
+                                            "hold_action": {
+                                                "action": "toggle",
+                                                "service": "light.luci_camera"
+                                            },
+                                            "image": "https://i.imgur.com/qxr10ha.png",
+                                            "state_filter": {
+                                                "off": "brightness(50%) saturate(0)",
+                                                "on": "brightness(100%) saturate(1.5)"
+                                            },
+                                            "style": {
+                                                "height": "100%",
+                                                "overflow": "hidden",
+                                                "position": "absolute",
+                                                "transform": "translate(0%, -100%)",
+                                                "width": "50%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "image"
+                                        },
+                                        {
+                                            "entity": "light.camera_edoardo",
+                                            "hold_action": {
+                                                "action": "toggle",
+                                                "service": "light.luci_camera"
+                                            },
+                                            "image": "https://i.imgur.com/HuY945M.png",
+                                            "state_filter": {
+                                                "off": "brightness(50%) saturate(0)",
+                                                "on": "brightness(100%) saturate(1.5)"
+                                            },
+                                            "style": {
+                                                "height": "100%",
+                                                "overflow": "hidden",
+                                                "position": "absolute",
+                                                "transform": "translate(100%, -100%)",
+                                                "width": "50%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "image"
+                                        },
+                                        {
+                                            "entity": "light.luci_camera",
+                                            "state_color": true,
+                                            "style": {
+                                                "left": "50%",
+                                                "top": "80%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "title": "On/Off Luci Camera",
+                                            "type": "state-icon"
+                                        }
+                                    ],
+                                    "image": "https://demo.home-assistant.io/stub_config/bedroom.png",
+                                    "style": "ha-card {\n  height: 250px;\n}\n",
+                                    "type": "picture-elements"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_names": false,
+                                        "hvac": true
+                                    },
+                                    "entity": "climate.camera_clima",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire",
+                                        "idle": "mdi:pause-circle-outline"
+                                    },
+                                    "name": "Clima",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\n  height: 80px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  top: 0px;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.modes {\n  position: relative;\n  top: -50px;\n}\n.body {\n  position: relative;\n  left: 30%;\n  top: -43px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_icons": false,
+                                        "_names": false,
+                                        "cooling": false
+                                    },
+                                    "entity": "climate.camera_calorifero",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire"
+                                    },
+                                    "label": {
+                                        "state": "Stato"
+                                    },
+                                    "name": "Calorifero",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\nheight: 48px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.body {\n  position: relative;\n  top: -43px;\n}\n.sensors {\n  position: relative;\n}\n.main div.current-wrapper.row {\n  position: relative;\n  left: 15%;\n  top: -5px;\n}\n.sensors div:last-of-type {\nposition: relative;\n  top: 20px;\n  left: -30%;\n  font-size: 12px;\n  text-align: left;\n}\n.sensors .sensor-heading {\n  position: relative;\n  visibility: hidden;\n}\n.idle {\n  margin-top: 10px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "animate": true,
+                                    "entities": [
+                                        {
+                                            "entity": "sensor.camera_clima_room_temp",
+                                            "name": "Temp."
+                                        }
+                                    ],
+                                    "group_by": "hour",
+                                    "hour24": true,
+                                    "points_per_hour": 1,
+                                    "show": {
+                                        "icon": false,
+                                        "name": false
+                                    },
+                                    "style": "ha-card {\n  background-color: rgba(0,0,0,0);\n}\ndiv.state__time {\n  position: absolute;\n  top: 0%;\n  left: 125%\n}\ndiv.info {\n  padding: 0;\n}\ndiv.states.flex {\n  padding: 0 16px 0 16px;\n}\n",
+                                    "type": "custom:mini-graph-card",
+                                    "update_interval": 60
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.tv_camera",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.tv_camera",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.camera",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.camera",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "style": "ha-card {\n  border-radius: 20px;    \n}\n.card-header {\n  text-align: center;\n  font-weight: 600;\n  font-variant: small-caps;\n  font-size: var(--ha-card-header-font-size, 32px);\n}\n",
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "light.studio_1",
+                                            "image": "https://i.imgur.com/GVX29ef.png",
+                                            "state_filter": {
+                                                "off": "brightness(50%) saturate(0)",
+                                                "on": "brightness(100%) saturate(1.5)"
+                                            },
+                                            "style": {
+                                                "height": "100%",
+                                                "overflow": "hidden",
+                                                "position": "absolute",
+                                                "transform": "translate(0%, -100%)",
+                                                "width": "100%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "image"
+                                        }
+                                    ],
+                                    "image": "https://i.imgur.com/GVX29ef.png",
+                                    "style": "ha-card {\n  height: 250px;\n}\n",
+                                    "type": "picture-elements"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_names": false,
+                                        "hvac": true
+                                    },
+                                    "entity": "climate.studio_clima",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire",
+                                        "idle": "mdi:pause-circle-outline"
+                                    },
+                                    "name": "Clima",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\n  height: 80px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  top: 0px;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.modes {\n  position: relative;\n  top: -50px;\n}\n.body {\n  position: relative;\n  left: 30%;\n  top: -43px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_icons": false,
+                                        "_names": false,
+                                        "cooling": false
+                                    },
+                                    "entity": "climate.studio_calorifero",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire"
+                                    },
+                                    "label": {
+                                        "state": "Stato"
+                                    },
+                                    "name": "Calorifero",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\nheight: 48px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.body {\n  position: relative;\n  top: -43px;\n}\n.sensors {\n  position: relative;\n}\n.main div.current-wrapper.row {\n  position: relative;\n  left: 15%;\n  top: -5px;\n}\n.sensors div:last-of-type {\nposition: relative;\n  top: 20px;\n  left: -30%;\n  font-size: 12px;\n  text-align: left;\n}\n.sensors .sensor-heading {\n  position: relative;\n  visibility: hidden;\n}\n.idle {\n  margin-top: 10px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "animate": true,
+                                    "entities": [
+                                        {
+                                            "entity": "sensor.studio_clima_room_temp",
+                                            "name": "Temp."
+                                        }
+                                    ],
+                                    "group_by": "hour",
+                                    "hour24": true,
+                                    "points_per_hour": 1,
+                                    "show": {
+                                        "icon": false,
+                                        "name": false
+                                    },
+                                    "style": "ha-card {\n  height: 80px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  top: 0px;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.modes {\n  position: relative;\n  top: -50px;\n}\n.body {\n  position: relative;\n  left: 30%;\n  top: -43px;\n}\n",
+                                    "type": "custom:mini-graph-card",
+                                    "update_interval": 60
+                                },
+                                {
+                                    "cards": [
+                                        {
+                                            "entities": [
+                                                {
+                                                    "entity": "sensor.epson_epson_stylus_office_bx635fwd"
+                                                }
+                                            ],
+                                            "title": "Stampante",
+                                            "type": "entities"
+                                        },
+                                        {
+                                            "card": {
+                                                "aggregate_func": "last",
+                                                "entities": [
+                                                    {
+                                                        "color": "rgb(0, 0, 0)",
+                                                        "entity": "sensor.epson_epson_stylus_office_bx635fwd_black_ink",
+                                                        "name": "Nero"
+                                                    },
+                                                    {
+                                                        "color": "rgb(0, 255, 255)",
+                                                        "entity": "sensor.epson_epson_stylus_office_bx635fwd_cyan_ink",
+                                                        "name": "Ciano"
+                                                    },
+                                                    {
+                                                        "color": "rgb(255, 0, 255)",
+                                                        "entity": "sensor.epson_epson_stylus_office_bx635fwd_magenta_ink",
+                                                        "name": "Magenta"
+                                                    },
+                                                    {
+                                                        "color": "rgb(255, 255, 0)",
+                                                        "entity": "sensor.epson_epson_stylus_office_bx635fwd_yellow_ink",
+                                                        "name": "Giallo"
+                                                    }
+                                                ],
+                                                "group_by": "date",
+                                                "height": 150,
+                                                "lower_bound": 0,
+                                                "show": {
+                                                    "graph": "bar",
+                                                    "legend": false,
+                                                    "state": true
+                                                },
+                                                "type": "custom:mini-graph-card",
+                                                "update_interval": 3600,
+                                                "upper_bound": 100
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "sensor.epson_epson_stylus_office_bx635fwd",
+                                                    "state_not": "unavailable"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        }
+                                    ],
+                                    "style": "ha-card {\n  margin-bottom: 10px;\n}\n",
+                                    "type": "custom:vertical-stack-in-card"
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.studio",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.studio",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "style": "ha-card {\n  border-radius: 20px;    \n}\n.card-header {\n  text-align: center;\n  font-weight: 600;\n  font-variant: small-caps;\n  font-size: var(--ha-card-header-font-size, 32px);\n}\n",
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "control": {
+                                        "_headings": false,
+                                        "_icons": false,
+                                        "_names": false,
+                                        "cooling": false
+                                    },
+                                    "entity": "climate.bagno_calorifero",
+                                    "hide": {
+                                        "temperature": true
+                                    },
+                                    "icon": {
+                                        "cool": "mdi:snowflake",
+                                        "heating": "mdi:fire"
+                                    },
+                                    "label": {
+                                        "state": "Stato"
+                                    },
+                                    "name": "Calorifero",
+                                    "step_layout": "row",
+                                    "style": "ha-card {\nheight: 48px;\n  padding: 0 8px 0 8px;\n  font-family: var(--ha-card-header-font-family, inherit);\n  font-size: var(--ha-card-header-font-size, 24px);\n  position: relative;\n  --st-font-size-xl: 18px;\n  --st-font-size-m: 18px;\n  --st-font-size-title: 24px;\n  --st-font-size-sensors: 18px;\n  --st-spacing: 2px;\n}\n.body {\n  position: relative;\n  top: -43px;\n}\n.sensors {\n  position: relative;\n}\n.main div.current-wrapper.row {\n  position: relative;\n  left: 15%;\n  top: -5px;\n}\n.sensors div:last-of-type {\nposition: relative;\n  top: 20px;\n  left: -30%;\n  font-size: 12px;\n  text-align: left;\n}\n.sensors .sensor-heading {\n  position: relative;\n  visibility: hidden;\n}\n.idle {\n  margin-top: 10px;\n}\n",
+                                    "type": "custom:simple-thermostat"
+                                },
+                                {
+                                    "card": {
+                                        "entity": "media_player.bagno",
+                                        "type": "media-control"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "media_player.bagno",
+                                            "state_not": "off"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "style": "ha-card {\n  border-radius: 20px;    \n}\n.card-header {\n  text-align: center;\n  font-weight: 600;\n  font-variant: small-caps;\n  font-size: var(--ha-card-header-font-size, 32px);\n}\n",
+                            "title": "BAGNO",
+                            "type": "custom:vertical-stack-in-card"
+                        }
+                    ],
+                    "icon": "mdi:home",
+                    "panel": false,
+                    "path": "default_view",
+                    "theme": "noctis",
+                    "title": "Home"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "device_tracker.mobile_edoardo",
+                                            "prefix": "Edoardo -- ",
+                                            "style": {
+                                                "background": "rgba(0, 0, 0, 50%)",
+                                                "border-radius": "20px",
+                                                "color": "white",
+                                                "left": "50%",
+                                                "top": "90%"
+                                            },
+                                            "type": "state-label"
+                                        },
+                                        {
+                                            "entity": "sensor.mobile_edoardo_battery_level",
+                                            "style": {
+                                                "background": "rgba(0, 0, 0, 50%)",
+                                                "border-radius": "20px",
+                                                "color": "white",
+                                                "left": "90%",
+                                                "top": "10%"
+                                            },
+                                            "type": "state-icon"
+                                        },
+                                        {
+                                            "entity": "sensor.mobile_edoardo_battery_level",
+                                            "style": {
+                                                "background": "rgba(0, 0, 0, 50%)",
+                                                "border-radius": "20px",
+                                                "color": "white",
+                                                "left": "75%",
+                                                "top": "10%"
+                                            },
+                                            "type": "state-label"
+                                        }
+                                    ],
+                                    "image": "https://www.gravatar.com/avatar/e1ad564e2011f765c550b4f117cd73ec.jpg?size=400",
+                                    "style": "ha-card {\n  font-weight: normal; \n  border-radius: 20px;\n  box-shadow: '3px 3px rgba(0,0,0,0.4)';\n  overflow: hidden\n}\n",
+                                    "type": "picture-elements"
+                                },
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "device_tracker.mobile_silvia",
+                                            "prefix": "Silvia -- ",
+                                            "style": {
+                                                "background": "rgba(0, 0, 0, 50%)",
+                                                "border-radius": "20px",
+                                                "color": "white",
+                                                "left": "50%",
+                                                "top": "90%"
+                                            },
+                                            "type": "state-label"
+                                        },
+                                        {
+                                            "entity": "sensor.mobile_silvia_battery_level",
+                                            "style": {
+                                                "background": "rgba(0, 0, 0, 50%)",
+                                                "border-radius": "20px",
+                                                "color": "white",
+                                                "left": "90%",
+                                                "top": "10%"
+                                            },
+                                            "type": "state-icon"
+                                        },
+                                        {
+                                            "entity": "sensor.mobile_silvia_battery_level",
+                                            "style": {
+                                                "background": "rgba(0, 0, 0, 50%)",
+                                                "border-radius": "20px",
+                                                "color": "white",
+                                                "left": "75%",
+                                                "top": "10%"
+                                            },
+                                            "type": "state-label"
+                                        }
+                                    ],
+                                    "image": "https://www.gravatar.com/avatar/7d81864da04ce727170c87c2c8624a1f.jpg?size=400",
+                                    "style": "ha-card {\n  font-weight: normal; \n  border-radius: 20px;\n  box-shadow: '3px 3px rgba(0,0,0,0.4)';\n  overflow: hidden\n}\n",
+                                    "type": "picture-elements"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        }
+                    ],
+                    "icon": "mdi:account-group",
+                    "panel": true,
+                    "path": "persone",
+                    "title": "Persone"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "shopping-list"
+                        }
+                    ],
+                    "path": "ecc",
+                    "title": "ecc"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "type": "custom:plan-coordinates"
+                                },
+                                {
+                                    "elements": [
+                                        {
+                                            "entity": "light.luci_soggiorno",
+                                            "state_color": true,
+                                            "style": {
+                                                "left": "34%",
+                                                "top": "4%"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "title": "On/Off Luci Soggiorno",
+                                            "type": "state-icon"
+                                        }
+                                    ],
+                                    "image": "https://i.imgur.com/0FYXGoJ.png",
+                                    "type": "picture-elements"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        }
+                    ],
+                    "icon": "mdi:wrench",
+                    "id": "main-floor",
+                    "panel": true,
+                    "title": "Main Floor"
+                }
+            ]
+        }
+    },
+    "key": "lovelace",
+    "version": 1
+}
