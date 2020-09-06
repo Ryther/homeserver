@@ -1,15 +1,54 @@
-version: "3.5"
+version: "3.6"
 services:
-  organizr:
-    image: organizrtools/organizr-v2:latest
-    container_name: organizr-v2
-    environment:
-      - PUID=1000
-      - PGID=1000
+  swag:
+    image: linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    secrets:
+      - linuxserver_swag_url
+      - linuxserver_swag_duckdnstoken
+      - linuxserver_swag_email
+    env_file:
+      - ${HOME}/.services/swag/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/organizr/config:/config
+      - ${HOME}/.services/swag/config:/config
+      # - ${HOME}/.services/nginx/etc/nginx/conf.d:/etc/nginx/conf.d:ro
+      # - ${HOME}/.services/nginx/etc/ssl/private:/etc/ssl/private
     ports:
-      - 80:80
+      - ${SWAG_HTTP_PORT}:80
+      - ${SWAG_HTTPS_PORT}:443
+    restart: unless-stopped
+    networks:
+      - organizr
+      - swag
+
+  duckdns:
+    image: linuxserver/duckdns
+    container_name: duckdns
+    secrets:
+      - linuxserver_duckdns_token
+      - linuxserver_duckdns_subdomains
+    env_file:
+      - ${HOME}/.services/duckdns/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/duckdns/config:/config
+    restart: unless-stopped
+
+  organizr:
+    image: organizr/organizr:arm64
+    container_name: organizr
+    env_file:
+      - ${HOME}/.services/organizr/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/organizr/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - ${ORGANIZR_PORT}:80
     restart: unless-stopped
     networks:
       - organizr
@@ -19,46 +58,41 @@ services:
     container_name: portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - {homeDir}/.services/portainer/data:/data
+      - ${HOME}/.services/portainer/data:/data
     ports:
-      - 10001:9000
+      - ${PORTAINER_PORT}:9000
     networks:
       - organizr
 
-  transmission:
-    image: linuxserver/transmission:latest
-    container_name: transmission
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
-      - USER={transmissionUsername}
-      - PASS={transmissionPassword}
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    env_file:
+      - ${HOME}/.services/qbittorrent/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/transmission/config:/config
-      - {homeDir}/downloads:/downloads
-      - {homeDir}/watch:/watch
+      - ${HOME}/.services/qbittorrent/config:/config
+      - ${HOME}/downloads:/downloads
     ports:
-      - 10002:9091
-      - 19999:51413
-      - 19999:51413/udp
+      - ${QBITTORRENT_WEBUI_PORT}:9092
+      - ${QBITTORRENT_OUT_PORT}:51412
+      - ${QBITTORRENT_OUT_PORT}:51412/udp
     restart: unless-stopped
     networks:
       - torrenting
       - organizr
+
   jackett:
     image: linuxserver/jackett:latest
     container_name: jackett
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
-      - AUTO_UPDATE=true #optional
+    env_file:
+      - ${HOME}/.services/jackett/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/jackett/config:/config
-      - {homeDir}/downloads:/downloads
+      - ${HOME}/.services/jackett/config:/config
+      - ${HOME}/downloads:/downloads
     ports:
-      - 10003:9117
+      - ${JACKETT_PORT}:9117
     restart: unless-stopped
     networks:
       - torrenting
@@ -66,16 +100,15 @@ services:
   radarr:
     image: linuxserver/radarr:latest
     container_name: radarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
+    env_file:
+      - ${HOME}/.services/radarr/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/radarr/config:/config
-      - {homeDir}/movies:/movies
-      - {homeDir}/downloads:/downloads
+      - ${HOME}/.services/radarr/config:/config
+      - ${HOME}/movies:/movies
+      - ${HOME}/downloads:/downloads
     ports:
-      - 10004:7878
+      - ${RADARR_PORT}:7878
     restart: unless-stopped
     networks:
       - torrenting
@@ -83,16 +116,16 @@ services:
   sonarr:
     image: linuxserver/sonarr:latest
     container_name: sonarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
+    env_file:
+      - ${HOME}/.services/sonarr/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/sonarr/config:/config
-      - {homeDir}/series:/tv
-      - {homeDir}/downloads:/downloads
+      - ${HOME}/.services/sonarr/config:/config
+      - ${HOME}/series:/tv
+      - ${HOME}/anime:/anime
+      - ${HOME}/downloads:/downloads
     ports:
-      - 10005:8989
+      - ${SONARR_PORT}:8989
     restart: unless-stopped
     networks:
       - torrenting
@@ -100,53 +133,311 @@ services:
   bazarr:
     image: linuxserver/bazarr:latest
     container_name: bazarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
-      - UMASK_SET=022 #optional
+    env_file:
+      - ${HOME}/.services/bazarr/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/bazarr/config:/config
-      - {homeDir}/movies:/movies
-      - {homeDir}/series:/tv
+      - ${HOME}/.services/bazarr/config2:/config
+      - ${HOME}/movies:/movies
+      - ${HOME}/series:/tv
+      - ${HOME}/anime:/anime
     ports:
-      - 10006:6767
-    restart: unless-stopped
-
-  grocy:
-    image: linuxserver/grocy:latest
-    container_name: grocy
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
-    volumes:
-      - {homeDir}/.services/grocy/config:/config
-    ports:
-      - 10007:80
+      - ${BAZARR_PORT}:6767
     restart: unless-stopped
     networks:
+      - torrenting
       - organizr
 
   duplicati:
     image: linuxserver/duplicati:latest
     container_name: duplicati
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Rome
+    env_file:
+      - ${HOME}/.services/duplicati/.env
+      - ${HOME}/.services/system.env
     volumes:
-      - {homeDir}/.services/duplicati/config:/config
-      - {homeDir}/backups:/backups
-      - {homeDir}:/source
+      - ${HOME}/.services/duplicati/config:/config
+      - ${HOME}/backups:/backups
+      - ${HOME}:/source
+      - /media/external_hd:/mount
     ports:
-      - 10008:8200
+      - ${DUPLICATI_PORT}:8200
     restart: unless-stopped
     networks:
       - organizr
 
+  plex:
+    image: linuxserver/plex
+    container_name: plex
+    env_file:
+      - ${HOME}/.services/plex/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/plex/config:/config
+      - ${HOME}/movies:/movies
+      - ${HOME}/series:/tv
+      - ${HOME}/anime:/anime
+    ports:
+      - ${PLEX_PMS_PORT}:32400
+      - ${PLEX_DLNA1_PORT}:1900/udp
+      - ${PLEX_DLNA2_PORT}:32469
+      - ${PLEX_PHT_COMPANION_PORT}:3005
+      - ${PLEX_ROKU_COMPANION_PORT}:8324
+      - ${PLEX_GDM1_PORT}:32410/udp
+      - ${PLEX_GDM2_PORT}:32412/udp
+      - ${PLEX_GDM3_PORT}:32413/udp
+      - ${PLEX_GDM4_PORT}:32414/udp
+    restart: unless-stopped
+    networks:
+      - organizr
+
+  flextv:
+    build: ./flextv/repo
+    image: digitalhigh/flextv
+    container_name: flextv
+    env_file:
+      - ${HOME}/.services/flextv/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/flextv/config:/config
+    ports:
+      - ${FLEXTV_PORT}:80
+    restart: unless-stopped
+    networks:
+      - organizr
+
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    env_file:
+      - ${HOME}/.services/jellyfin/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/jellyfin/config:/config
+      - ${HOME}/movies:/data/movies
+      - ${HOME}/series:/data/tvshows
+      - ${HOME}/anime:/data/anime
+    ports:
+      - ${JELLYFIN_PORT}:8096
+    devices:
+      - /dev/video10:/dev/video10 #optional
+    restart: unless-stopped
+    networks:
+      - organizr
+
+  urbackup:
+    image: uroni/urbackup-server
+    container_name: urbackup
+    env_file:
+      - ${HOME}/.services/urbackup/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/urbackup/var/urbackup:/var/urbackup
+      - ${HOME}/backups:/backups
+      # Uncomment the next line if you want to bind-mount the www-folder
+      #- /path/to/wwwfolder:/usr/share/urbackup
+    ports:
+      - 35623:35623/udp
+      - 55413:55413/tcp
+      - 55414:55414/tcp
+    restart: unless-stopped
+    #network_mode: host
+    networks:
+      - organizr
+    # Activate the following two lines for BTRFS support
+    #cap_add:
+    #  - SYS_ADMIN
+
+  mariadb:
+    image: linuxserver/mariadb
+    container_name: mariadb
+    secrets:
+      - mariadb_root_password
+    env_file:
+      - ${HOME}/.services/mariadb/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/mariadb/var/lib/mysql:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - mariadb
+
+#  ldap-auth:
+#    image: linuxserver/ldap-auth
+#    container_name: ldap-auth
+#    secrets:
+#      - linuxserver_ldapauth_fernetkey
+#    env_file:
+#      - ${HOME}/.services/ldap-auth/.env
+#      - ${HOME}/.services/system.env
+#    ports:
+#      - 8888:8888
+#      - 9000:9000
+#    restart: unless-stopped
+#    networks:
+#      - ldap
+
+  # Authelia (Lite) - Self-Hosted Single Sign-On and Two-Factor Authentication
+  authelia:
+    image: authelia/authelia:4.21.0
+    container_name: authelia
+    # image: authelia/authelia:latest
+    depends_on:
+      - mariadb
+      - redis
+      - openldap
+    secrets:
+      - authelia_jwt_secret
+      - authelia_session_secret
+      - redis_password
+      - authelia_storage_mysql_password
+      - authelia_notifier_smtp_password
+      - authelia_duo_api_secret_key
+    env_file:
+      - ${HOME}/.services/authelia/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/authelia/config:/config
+#    labels:
+#      - "traefik.enable=true"
+#      ## HTTP Routers
+#      - "traefik.http.routers.authelia-rtr.entrypoints=https"
+#      - "traefik.http.routers.authelia-rtr.rule=HostHeader(`authelia.$DOMAINNAME`)"
+#      ## Middlewares
+#      - "traefik.http.routers.authelia-rtr.middlewares=chain-authelia@file"
+#      ## HTTP Services
+#      - "traefik.http.routers.authelia-rtr.service=authelia-svc"
+#      - "traefik.http.services.authelia-svc.loadbalancer.server.port=9091"
+    restart: unless-stopped
+    networks:
+      - ldap
+      - swag
+      - mariadb
+
+  # Redis - Key-value Store
+  redis:
+    image: redis:alpine
+    container_name: redis
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ${HOME}/.services/redis/data:/data
+      - ${HOME}/.services/redis/usr/local/etc/redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    ports:
+      - ${REDIS_PORT}:6379
+    restart: unless-stopped
+    networks:
+      - ldap
+    entrypoint: redis-server /usr/local/etc/redis/redis.conf --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+  # Redis Commander - Redis Management Tool
+  rediscommander:
+    build: ./rediscommander/repo
+    image: rediscommander/redis-commander
+    container_name: rediscommander
+    secrets:
+      - redis_password
+    security_opt:
+      - no-new-privileges:true
+    env_file:
+      - ${HOME}/.services/rediscommander/.env
+      - ${HOME}/.services/system.env
+#    labels:
+#      - "traefik.enable=true"
+#      ## HTTP Routers
+#      - "traefik.http.routers.rediscommander-rtr.entrypoints=https"
+#      - "traefik.http.routers.rediscommander-rtr.rule=HostHeader(`rediscom.$DOMAINNAME`)"
+#      ## Middlewares
+#      - "traefik.http.routers.rediscommander-rtr.middlewares=chain-authelia@file"
+#      ## HTTP Services
+#      - "traefik.http.routers.rediscommander-rtr.service=rediscommander-svc"
+#      - "traefik.http.services.rediscommander-svc.loadbalancer.server.port=8081"
+    ports:
+      - ${REDISCOMMANDER_PORT}:8081
+    restart: unless-stopped
+    networks:
+      - organizr
+      - ldap
+
+  openldap:
+    image: osixia/openldap:1.4.0
+    container_name: openldap
+    hostname: ldap.mortenera.duckdns.org
+    domainname: mortenera.duckdns.org
+    secrets:
+      - openldap_config_password
+      - openldap_admin_password
+    env_file:
+      - ${HOME}/.services/openldap/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/openldap/var/lib/ldap:/var/lib/ldap
+      - ${HOME}/.services/openldap/etc/ldap/slapd.d:/etc/ldap/slapd.d
+    ports:
+      - ${OPENLDAP_PORT}:389
+      - ${OPENLDAP_PORT_SSL}:636
+    restart: unless-stopped
+    networks:
+      - ldap
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    env_file:
+      - ${HOME}/.services/phpldapadmin/.env
+      - ${HOME}/.services/system.env
+    volumes:
+      - ${HOME}/.services/phpldapadmin/container/environment/01-custom/vars.yaml:/container/environment/01-custom/vars.yaml
+    ports:
+      - ${PHP_LDAP_ADMIN_PORT}:80
+    depends_on:
+      - openldap
+    networks:
+      - ldap
+      - organizr
+
 networks:
-    organizr:
-      name: organizr
-    torrenting:
-      name: torrenting
+  default:
+    name: services
+  organizr:
+    name: organizr
+  torrenting:
+    name: torrenting
+  ldap:
+    name: ldap
+  swag:
+    name: swag
+  mariadb:
+    name: mariadb
+
+secrets:
+  linuxserver_swag_url:
+    file: ${HOME}/.services/swag/url.secret
+  linuxserver_swag_duckdnstoken:
+    file: ${HOME}/.services/swag/duckdnstoken.secret
+  linuxserver_swag_email:
+    file: ${HOME}/.services/swag/email.secret
+  linuxserver_duckdns_token:
+    file: ${HOME}/.services/duckdns/token.secret
+  linuxserver_duckdns_subdomains:
+    file: ${HOME}/.services/duckdns/subdomains.secret
+  linuxserver_ldapauth_fernetkey:
+    file: ${HOME}/.services/ldap-auth/fernetkey.secret
+  mariadb_root_password:
+    file: ${HOME}/.services/mariadb/root_password.secret
+  authelia_jwt_secret:
+    file: ${HOME}/.services/authelia/jwt_secret.secret
+  authelia_session_secret:
+    file: ${HOME}/.services/authelia/session_secret.secret
+  authelia_storage_mysql_password:
+    file: ${HOME}/.services/authelia/storage_mysql_password.secret
+  authelia_notifier_smtp_password:
+    file: ${HOME}/.services/authelia/notifier_smtp_password.secret
+  authelia_duo_api_secret_key:
+    file: ${HOME}/.services/authelia/duo_api_secret_key.secret
+  redis_password:
+    file: ${HOME}/.services/redis/password.secret
+  openldap_config_password:
+    file: ${HOME}/.services/openldap/config_password.secret
+  openldap_admin_password:
+    file: ${HOME}/.services/openldap/admin_password.secret
